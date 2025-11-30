@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tunnel Digger - A retro arcade digging game">
+    <title>Tunnel Digger</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="ui-overlay">
+            <div class="ui-top">
+                <div id="score-display">Score: <span id="score">0</span></div>
+                <div id="lives-display"><span id="lives-flowers"></span></div>
+                <div id="level-display">Level: <span id="level">1</span></div>
+                <div class="ui-buttons">
+                    <button id="pause-button" title="Pause">⏸</button>
+                    <button id="stop-button" title="Stop">⏹</button>
+                    <button id="music-toggle">🔊</button>
+                </div>
+            </div>
+        </div>
+        <canvas id="game-canvas" width="576" height="448"></canvas>
+        <div id="title-screen" class="screen">
+            <h1>TUNNEL DIGGER</h1>
+            <p class="subtitle">Dig, Pump, Survive!</p>
+            <button id="start-button" class="game-button">Start Game</button>
+            <button id="instructions-button" class="game-button">Instructions</button>
+        </div>
+        <div id="instructions-screen" class="screen hidden">
+            <h2>How to Play</h2>
+            <div class="instructions-content">
+                <p><strong>Movement:</strong> Arrow Keys or WASD</p>
+                <p><strong>Pump:</strong> Spacebar (inflate adjacent monsters)</p>
+                <p><strong>Objective:</strong> Defeat all monsters to advance!</p>
+                <ul>
+                    <li>Dig tunnels by moving through dirt</li>
+                    <li>Drop rocks on enemies by digging underneath</li>
+                    <li>Pump monsters to inflate and defeat them</li>
+                    <li>Avoid contact with monsters!</li>
+                </ul>
+            </div>
+            <button id="back-button" class="game-button">Back</button>
+        </div>
+        <div id="game-over-screen" class="screen hidden">
+            <h2>GAME OVER</h2>
+            <p class="final-score">Final Score: <span id="final-score">0</span></p>
+            <button id="restart-button" class="game-button">Play Again</button>
+            <button id="menu-button" class="game-button">Main Menu</button>
+        </div>
+        <div id="level-complete-screen" class="screen hidden">
+            <h2>LEVEL COMPLETE!</h2>
+            <p class="level-score">Score: <span id="level-score">0</span></p>
+            <button id="next-level-button" class="game-button">Next Level</button>
+        </div>
+        <div id="pause-screen" class="screen hidden">
+            <h2>PAUSED</h2>
+            <button id="resume-button" class="game-button">Resume</button>
+            <button id="quit-button" class="game-button">Quit to Menu</button>
+        </div>
+        <!-- Mobile Controls -->
+        <div id="mobile-controls" class="hidden">
+            <div class="dpad">
+                <button class="control-btn" data-key="up">▲</button>
+                <button class="control-btn" data-key="left">◀</button>
+                <button class="control-btn" data-key="down">▼</button>
+                <button class="control-btn" data-key="right">▶</button>
+            </div>
+            <button class="control-btn action-btn" data-key="pump">PUMP</button>
+        </div>
+    </div>
+
+    <!-- Game Scripts -->
+    <script src="js/config.js?v=19"></script>
+    <script src="js/utils.js?v=19"></script>
+    <script src="js/input.js?v=19"></script>
+    <script src="js/audio.js?v=19"></script>
+    <script src="js/sprites.js?v=19"></script>
+    <script src="js/grid.js?v=19"></script>
+    <script src="js/bonus.js?v=19"></script>
+    <script src="js/player.js?v=19"></script>
+    <script src="js/monster.js?v=19"></script>
+    <script src="js/rock.js?v=19"></script>
+    <script src="js/particles.js?v=19"></script>
+    <script src="js/game.js?v=19"></script>
+    <script src="js/main.js?v=19"></script>
+</body>
+</html>
