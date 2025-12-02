@@ -201,12 +201,35 @@ class Player {
     }
 
     findPumpTarget(monsters) {
+        // Only find monsters in the direction the player is facing
+        const directionVec = Utils.getDirectionVector(this.direction);
+        
         let closest = null;
         let closestDist = CONFIG.PLAYER_PUMP_RANGE;
         
         for (const monster of monsters) {
             if (!monster.alive || monster.isGhost) continue;
             
+            // Calculate relative position of monster
+            const dx = monster.gridX - this.gridX;
+            const dy = monster.gridY - this.gridY;
+            
+            // Check if monster is in the correct direction
+            let inDirection = false;
+            
+            if (this.direction === DIRECTION.UP && dy < 0 && Math.abs(dx) <= 0.5) {
+                inDirection = true;
+            } else if (this.direction === DIRECTION.DOWN && dy > 0 && Math.abs(dx) <= 0.5) {
+                inDirection = true;
+            } else if (this.direction === DIRECTION.LEFT && dx < 0 && Math.abs(dy) <= 0.5) {
+                inDirection = true;
+            } else if (this.direction === DIRECTION.RIGHT && dx > 0 && Math.abs(dy) <= 0.5) {
+                inDirection = true;
+            }
+            
+            if (!inDirection) continue;
+            
+            // Calculate distance
             const dist = Utils.distance(this.gridX, this.gridY, monster.gridX, monster.gridY);
             if (dist <= closestDist) {
                 closest = monster;
