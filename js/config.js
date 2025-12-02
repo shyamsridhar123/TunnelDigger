@@ -13,16 +13,16 @@ const CONFIG = {
     PLAYER_SPEED: 4,    // Increased for larger scale
     PLAYER_START_X: 7,  // Center of 14 width
     PLAYER_START_Y: 1,
-    PLAYER_PUMP_RANGE: 1.5, // tiles
+    PLAYER_PUMP_RANGE: 2.0, // tiles (increased for better gameplay)
     PLAYER_PUMP_TIME: 300, // ms per pump action
     
     // Monster settings
-    MONSTER_SPEED: 2,
+    MONSTER_SPEED: 1.5,
     MONSTER_GHOST_SPEED: 1,
-    MONSTER_GHOST_INTERVAL: 8000, // ms before going ghost
-    MONSTER_GHOST_DURATION: 3000, // ms in ghost mode
+    MONSTER_GHOST_INTERVAL: 15000, // ms before going ghost (increased for fairness)
+    MONSTER_GHOST_DURATION: 5000, // ms in ghost mode
     MONSTER_PUMP_STAGES: 4, // number of pumps to defeat
-    MONSTER_INFLATE_DURATION: 500, // ms before deflating (reduced for snappier gameplay)
+    MONSTER_INFLATE_DURATION: 800, // ms before deflating
     
     // Rock settings
     ROCK_FALL_SPEED: 6,
@@ -47,20 +47,30 @@ const CONFIG = {
     TILE_TUNNEL: 3,
     TILE_BONUS: 4,
     
-    // Colors (Arcade Style)
-    COLOR_BACKGROUND: '#000000',
-    COLOR_SKY: '#000000', // The arcade game actually has black background for tunnels, sky is drawn on top
+    // Colors (Classic Arcade Style - Enhanced)
+    COLOR_BACKGROUND: '#0a0a14', // Dark underground blue-black
+    COLOR_SKY: '#4080FF',        // Blue sky at top (classic Dig Dug)
     COLOR_DIRT_LAYERS: [
-        '#E8A000', // Golden/Orange-Yellow (Top) - matches arcade
-        '#D07000', // Orange
-        '#B84000', // Deep Orange/Red
-        '#901800'  // Dark Red/Brown
+        '#D88020', // Golden/Orange-Yellow (Top) - classic arcade
+        '#C06020', // Orange
+        '#A04020', // Deep Orange/Red
+        '#802010'  // Dark Red/Brown (Bottom)
     ],
-    COLOR_TUNNEL: '#000000',
-    COLOR_ROCK: '#FFB851',
-    COLOR_PLAYER: '#FFFFFF',
-    COLOR_MONSTER: '#FF0000',
-    COLOR_BONUS: '#FFD700',
+    COLOR_TUNNEL: '#0a0a14',     // Dark underground (matches background)
+    COLOR_ROCK: '#808080',       // Gray rocks
+    COLOR_PLAYER: '#FFFFFF',     // White suit
+    COLOR_MONSTER: '#FF0000',    // Red Pooka
+    COLOR_BONUS: '#00FF00',      // Green vegetables
+    
+    // Classic Arcade Visual Settings
+    SKY_ROWS: 3,                 // Rows of blue sky at top
+    SCANLINE_ENABLED: true,      // CRT scanline effect
+    PIXEL_PERFECT: true,         // Crisp pixel rendering
+    
+    // Particle Effects Settings
+    PARTICLE_GLOW_ENABLED: false, // Keep it simple like arcade
+    SCREEN_SHAKE_ENABLED: true,
+    TRAIL_EFFECTS_ENABLED: false,
     
     // Animation settings
     ANIMATION_FRAME_DURATION: 100, // ms per frame

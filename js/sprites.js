@@ -1,4 +1,4 @@
-// Sprite Manager - Handles drawing sprites and animations
+// Sprite Manager - Handles drawing sprites and animations (Classic Arcade Style)
 class SpriteManager {
     constructor(ctx) {
         this.ctx = ctx;
@@ -34,145 +34,211 @@ class SpriteManager {
             this.sprites[key] = c;
         };
 
-        // --- Pixel Art Definitions (12x12) ---
+        // --- Classic Dig Dug Pixel Art (12x12) with Enhanced Shading ---
 
-        // Player (Dig Dug)
+        // Player (Dig Dug) - Enhanced with highlights and depth
         const playerMap = [
-            "...WWWW.....",
-            "..WWRRWW....",
-            ".WKKKKKKW...",
-            ".WKSKKKSW...",
-            ".WKKKKKKW...",
-            "..WWWWWW....",
-            ".BBWWWWBB...",
-            ".BWWWWBW....",
-            ".BWWWWBW....",
-            "..BB..BB....",
-            "..BB..BB....",
-            ".BB....BB..."
+            "....WWWW....",
+            "...WHHHWW...",
+            "..WHSSSSHL..",
+            "..WSKKKSHL..",
+            "..WHSSSSHL..",
+            "...WHHHHLL..",
+            "..BWHHHWLB..",
+            "..BWHHHWLB..",
+            "..BWHHHWLB..",
+            "...BB.BB....",
+            "..BB...BB...",
+            ".BBD...DBB.."
         ];
         const playerColors = {
-            'W': '#FFFFFF', // White
-            'B': '#0000FF', // Blue
-            'S': '#FFCCAA', // Skin
-            'K': '#000000', // Black
-            'R': '#FF0000'  // Red
+            'W': '#FFFFFF', // White suit
+            'H': '#E8E8E8', // Light grey highlight
+            'L': '#CCCCCC', // Shadow on suit
+            'B': '#0066FF', // Bright blue
+            'D': '#0044AA', // Dark blue shadow
+            'S': '#FFCCAA', // Skin tone
+            'K': '#000000'  // Black eyes
         };
         cache('player', playerMap, playerColors);
 
-        // Pooka (Red Monster)
+        // Pooka (Red balloon monster) - Enhanced with highlights and shading
         const pookaMap = [
             "....RRRR....",
-            "..RRRRRRRR..",
-            ".RRRRRRRRRR.",
-            ".RYYYRRYYYR.",
-            ".RYKYRRYKYR.",
-            ".RYYYRRYYYR.",
-            ".RRRRRRRRRR.",
-            ".RRRRRRRRRR.",
-            "..WW....WW..",
-            "..WW....WW..",
-            "..RR....RR.."
+            "..RRHHHRR...",
+            ".RHHHRRRRRD.",
+            ".RWWHRRRWWD.",
+            ".RKKHRRRKKD.",
+            ".RWWRRRRRWD.",
+            ".RRRRRRRRRRD",
+            ".RRRRMRRRRRD",
+            ".RRRDDDRRRD.",
+            "..RR....RR..",
+            "..RD....RD..",
+            ".RRD....RRD."
         ];
         const pookaColors = {
-            'R': '#FF0000', // Red
-            'Y': '#FFFF00', // Yellow
-            'K': '#000000', // Black
-            'W': '#FFFFFF'  // White
+            'R': '#FF2020', // Bright red body
+            'H': '#FF6060', // Highlight (lighter red)
+            'D': '#CC0000', // Dark shadow
+            'M': '#FF4040', // Mid-tone
+            'W': '#FFFFFF', // White goggles
+            'K': '#000000'  // Black pupils
         };
         cache('pooka', pookaMap, pookaColors);
 
-        // Fygar (Green Dragon)
+        // Fygar (Green dragon) - Enhanced with scales, wings, and fire belly
         const fygarMap = [
-            "....GGGG....",
-            "...GWWGG....",
-            "..GKWGGGG...",
-            ".GGGGGGGG...",
-            ".GGRRRRGG...",
-            ".GGRRRRGG...",
-            ".GGGGGGGG...",
-            ".GGGGGGGG...",
-            "..GG..GG....",
-            "..GG..GG....",
-            ".GG....GG..."
+            "....HHHH....",
+            "...HHGGGG...",
+            "..HWWGGGGG..",
+            "..HKKGGGGGD.",
+            ".HGGGGGGGGGD",
+            ".GGYYYYYGDD.",
+            ".GGYYYYYGDD.",
+            ".HGGGGGGGDD.",
+            "..HGGGGGDD..",
+            "..GG....GG..",
+            "..GD....GD..",
+            ".GGD....GGD."
         ];
         const fygarColors = {
-            'G': '#00AA00', // Green
-            'R': '#FF0000', // Red wings
+            'G': '#00CC00', // Main green body
+            'H': '#40E040', // Highlight green
+            'D': '#008800', // Dark green shadow
+            'Y': '#FFAA00', // Orange-yellow belly/fire
             'W': '#FFFFFF', // White eyes
             'K': '#000000'  // Black pupils
         };
         cache('fygar', fygarMap, fygarColors);
 
-        // Ghost (White Pooka)
-        const ghostMap = pookaMap; // Same shape
+        // Ghost (Ethereal floating spirit with wavy edges)
+        const ghostMap = [
+            "....WWWW....",
+            "..WWLLLLWW..",
+            ".WLLLLLLLLL.",
+            ".WGGLLLLGGW.",
+            ".WKKLLLLKKW.",
+            ".WGGLLLLLGW.",
+            ".WLLLLLLLLL.",
+            ".WLLLLLLLLL.",
+            ".WLWLWLWLWL.",
+            "..W.W.W.W...",
+            "............",
+            "............"
+        ];
         const ghostColors = {
-            'R': '#FFFFFF', // White body
-            'Y': '#CCCCCC', // Grey goggles
-            'K': '#000000',
-            'W': '#EEEEEE'
+            'W': '#FFFFFF', // White body
+            'L': '#E8E8FF', // Light blue-white glow
+            'G': '#AAAACC', // Pale blue-grey goggles
+            'K': '#666688'  // Dark blue-grey pupils
         };
         cache('ghost', ghostMap, ghostColors);
 
-        // Rock
+        // Rock - 3D boulder with highlights, cracks, and shading
         const rockMap = [
-            "....OOOO....",
-            "..OOOOOOOO..",
-            ".OOOOOOOOOO.",
-            ".OODOOOODOO.",
-            ".OOOOOOOOOO.",
-            ".OOODOOOODO.",
-            ".OOOOOOOOOO.",
-            ".OOOOOOOOOO.",
-            "..OOOOOOOO..",
-            "....OOOO...."
+            "....LLLL....",
+            "..LLHHHHGG..",
+            ".LHHHHHHHGGG",
+            ".LHHGHHCGGDD",
+            ".LHHHHHHHGDD",
+            ".LGGHCHHGGDD",
+            ".LGGGGGGGGDD",
+            ".GGGGGGGGDDD",
+            ".GGGDDDGGDD.",
+            "..GGDDDDDD..",
+            "....DDDD....",
+            "............"
         ];
         const rockColors = {
-            'O': '#FFB851', // Orange/Brown
-            'D': '#A0522D'  // Dark Brown
+            'L': '#A0A0A0', // Light highlight
+            'H': '#909090', // High-mid tone
+            'G': '#707070', // Main grey
+            'D': '#404040', // Dark shadow
+            'C': '#353535'  // Crack lines
         };
         cache('rock', rockMap, rockColors);
 
-        // Bonus (Carrot/Veggie)
+        // Bonus (Turnip/Radish - Classic Dig Dug vegetable with shine)
         const bonusMap = [
             "....GGGG....",
-            "...GGGGGG...",
-            "..OO..OO....",
-            ".OOOOOOOO...",
-            ".OOOOOOOO...",
-            "..OOOOOO....",
-            "...OOOO.....",
-            "....OO......",
-            "....OO......",
-            "....O......."
+            "...GHHGGG...",
+            "..GHH.HG....",
+            ".PPPHPPPP...",
+            ".PPPPPPPPW..",
+            ".PPPPPPPPPW.",
+            "..PPPPPPPP..",
+            "...PPPPPP...",
+            "....PPPP....",
+            ".....PP.....",
+            "............",
+            "............"
         ];
         const bonusColors = {
-            'O': '#FF8800', // Orange
-            'G': '#00FF00'  // Green
+            'P': '#FF4488', // Pink/red turnip
+            'W': '#FFAACC', // White shine/highlight
+            'G': '#22CC22', // Green leaves
+            'H': '#44EE44'  // Light green highlight
         };
         cache('bonus', bonusMap, bonusColors);
 
-        // Flower (for lives display)
+        // Flower (for lives display) - Enhanced with depth and shine
         const flowerMap = [
             "............",
-            "....RR......",
-            "...RRRR.....",
-            "..RRYYRR....",
-            "..RRYYRR....",
-            "...RRRR.....",
-            "....GG......",
-            "....GG......",
-            "...GGGG.....",
-            "....GG......",
-            "....GG......",
+            "....PH......",
+            "...PHHP.....",
+            "..PHYYPH....",
+            "..PHYYPH....",
+            "...PDDP.....",
+            "....GH......",
+            "....GH......",
+            "...GHHG.....",
+            "....GD......",
+            "....GD......",
             "............"
         ];
         const flowerColors = {
-            'R': '#FF69B4', // Pink petals
+            'P': '#FF69B4', // Pink petals
+            'H': '#FFA0D0', // Highlight pink
+            'D': '#CC4080', // Dark pink shadow
             'Y': '#FFFF00', // Yellow center
-            'G': '#00AA00'  // Green stem
+            'G': '#00AA00', // Green stem
         };
         cache('flower', flowerMap, flowerColors);
+
+        // Inflated Pooka stages (for pumping animation) - stretched with stress marks
+        const inflatedPookaMap = [
+            "...HHHHHH...",
+            ".HHHHHHHHHH.",
+            "HHHHHHHHHHHR",
+            "HWWHHHHHWWHR",
+            "HKKHHHHHKKHR",
+            "HWWHHHHHWWHR",
+            "HHHHHHHHHHHR",
+            "HHHHHMHHHHRR",
+            "HHHHRRRHHRRR",
+            ".HHRRRRRRRR.",
+            "..RRRRRRRR..",
+            "...RRRRRR..."
+        ];
+        cache('pooka_inflated', inflatedPookaMap, pookaColors);
+        
+        // Create additional inflated stages
+        const inflatedFygarMap = [
+            "...HHHHHH...",
+            ".HHHHHHHHHH.",
+            "HHHHHHHHHHGD",
+            "HWWHHHHHWWGD",
+            "HKKHHHHHKKGD",
+            "HWWHHHHHWWGD",
+            "HHYYYYYYYYGD",
+            "HHYYYYYYYYGD",
+            "HHHHHHHHHGDD",
+            ".HHHHHHHGDD.",
+            "..GGGGGGDD..",
+            "...GGGGDD..."
+        ];
+        cache('fygar_inflated', inflatedFygarMap, fygarColors);
     }
 
     // Get a sprite canvas for external use (like lives display)
@@ -306,8 +372,8 @@ class SpriteManager {
         }
     }
 
-    // Draw dirt tile with arcade-style speckled texture
-    drawDirt(x, y, row) {
+    // Draw dirt tile with arcade-style speckled texture and rounded edges
+    drawDirt(x, y, row, neighbors = {up:false,down:false,left:false,right:false}) {
         const size = CONFIG.TILE_SIZE;
         
         // Determine color based on depth (row)
@@ -319,9 +385,170 @@ class SpriteManager {
         
         if (layerIndex >= CONFIG.COLOR_DIRT_LAYERS.length) layerIndex = CONFIG.COLOR_DIRT_LAYERS.length - 1;
         
-        // Fill base color
-        this.ctx.fillStyle = CONFIG.COLOR_DIRT_LAYERS[layerIndex];
+        const baseColor = CONFIG.COLOR_DIRT_LAYERS[layerIndex];
+        const edgeColor = this.darkenColor(baseColor, 0.5);
+        const highlightColor = this.lightenColor(baseColor, 0.2);
+        
+        // Calculate corner radius based on neighbor tunnels
+        const radius = 10;
+        
+        // Draw the dirt shape with rounded corners where it meets tunnels
+        this.ctx.beginPath();
+        
+        // Start from top-left
+        if (neighbors.up || neighbors.left) {
+            this.ctx.moveTo(x + radius, y + radius);
+        } else {
+            this.ctx.moveTo(x, y);
+        }
+        
+        // Top edge
+        if (neighbors.up) {
+            this.ctx.lineTo(x + radius, y + radius);
+            this.ctx.quadraticCurveTo(x + size/2, y + radius * 1.5, x + size - radius, y + radius);
+        } else {
+            this.ctx.lineTo(x + size, y);
+        }
+        
+        // Top-right corner
+        if (neighbors.up || neighbors.right) {
+            this.ctx.lineTo(x + size - radius, y + radius);
+        }
+        
+        // Right edge
+        if (neighbors.right) {
+            this.ctx.quadraticCurveTo(x + size - radius * 1.5, y + size/2, x + size - radius, y + size - radius);
+        } else {
+            this.ctx.lineTo(x + size, y + size);
+        }
+        
+        // Bottom-right corner
+        if (neighbors.down || neighbors.right) {
+            this.ctx.lineTo(x + size - radius, y + size - radius);
+        }
+        
+        // Bottom edge
+        if (neighbors.down) {
+            this.ctx.quadraticCurveTo(x + size/2, y + size - radius * 1.5, x + radius, y + size - radius);
+        } else {
+            this.ctx.lineTo(x, y + size);
+        }
+        
+        // Bottom-left corner
+        if (neighbors.down || neighbors.left) {
+            this.ctx.lineTo(x + radius, y + size - radius);
+        }
+        
+        // Left edge
+        if (neighbors.left) {
+            this.ctx.quadraticCurveTo(x + radius * 1.5, y + size/2, x + radius, y + radius);
+        } else {
+            this.ctx.lineTo(x, y);
+        }
+        
+        this.ctx.closePath();
+        
+        // Fill with base color
+        this.ctx.fillStyle = baseColor;
+        this.ctx.fill();
+        
+        // Draw darker border around tunnel edges for definition
+        if (neighbors.up || neighbors.down || neighbors.left || neighbors.right) {
+            this.ctx.strokeStyle = edgeColor;
+            this.ctx.lineWidth = 3;
+            this.ctx.stroke();
+        }
+        
+        // Now fill the full tile for texture but clip to our shape isn't needed
+        // Just fill the rectangle for texture
+        this.ctx.fillStyle = baseColor;
         this.ctx.fillRect(x, y, size, size);
+        
+        // Re-cut the tunnel edges with actual transparency
+        // Clear the curved edge areas to show background through
+        if (neighbors.up) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y);
+            this.ctx.quadraticCurveTo(x + size/2, y + radius, x + size, y);
+            this.ctx.lineTo(x + size, y);
+            this.ctx.lineTo(x, y);
+            this.ctx.closePath();
+            this.ctx.clip();
+            this.ctx.clearRect(x, y, size, radius + 2);
+            this.ctx.restore();
+            
+            // Draw the curved edge border
+            this.ctx.strokeStyle = edgeColor;
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y + radius/2);
+            this.ctx.quadraticCurveTo(x + size/2, y + radius, x + size, y + radius/2);
+            this.ctx.stroke();
+        }
+        
+        if (neighbors.down) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y + size);
+            this.ctx.quadraticCurveTo(x + size/2, y + size - radius, x + size, y + size);
+            this.ctx.lineTo(x + size, y + size);
+            this.ctx.lineTo(x, y + size);
+            this.ctx.closePath();
+            this.ctx.clip();
+            this.ctx.clearRect(x, y + size - radius - 2, size, radius + 2);
+            this.ctx.restore();
+            
+            // Draw the curved edge border
+            this.ctx.strokeStyle = edgeColor;
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y + size - radius/2);
+            this.ctx.quadraticCurveTo(x + size/2, y + size - radius, x + size, y + size - radius/2);
+            this.ctx.stroke();
+        }
+        
+        if (neighbors.left) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y);
+            this.ctx.quadraticCurveTo(x + radius, y + size/2, x, y + size);
+            this.ctx.lineTo(x, y + size);
+            this.ctx.lineTo(x, y);
+            this.ctx.closePath();
+            this.ctx.clip();
+            this.ctx.clearRect(x, y, radius + 2, size);
+            this.ctx.restore();
+            
+            // Draw the curved edge border
+            this.ctx.strokeStyle = edgeColor;
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x + radius/2, y);
+            this.ctx.quadraticCurveTo(x + radius, y + size/2, x + radius/2, y + size);
+            this.ctx.stroke();
+        }
+        
+        if (neighbors.right) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.moveTo(x + size, y);
+            this.ctx.quadraticCurveTo(x + size - radius, y + size/2, x + size, y + size);
+            this.ctx.lineTo(x + size, y + size);
+            this.ctx.lineTo(x + size, y);
+            this.ctx.closePath();
+            this.ctx.clip();
+            this.ctx.clearRect(x + size - radius - 2, y, radius + 2, size);
+            this.ctx.restore();
+            
+            // Draw the curved edge border
+            this.ctx.strokeStyle = edgeColor;
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(x + size - radius/2, y);
+            this.ctx.quadraticCurveTo(x + size - radius, y + size/2, x + size - radius/2, y + size);
+            this.ctx.stroke();
+        }
         
         // Create arcade-style speckled texture using deterministic random
         const dotSize = 2;
@@ -331,7 +558,6 @@ class SpriteManager {
         this.ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
         for (let dy = 0; dy < size; dy += spacing) {
             for (let dx = 0; dx < size; dx += spacing) {
-                // Use position-based seed for consistent pattern
                 const seed = ((x + dx) * 7919 + (y + dy) * 6271) % 100;
                 if (seed < 40) {
                     const offsetX = (seed % 3) - 1;
@@ -352,12 +578,31 @@ class SpriteManager {
             }
         }
     }
-
-    // Draw tunnel with arcade-style rounded corners
-    drawTunnel(x, y, grid = null, gridX = null, gridY = null) {
-        const size = CONFIG.TILE_SIZE;
-        this.ctx.fillStyle = CONFIG.COLOR_TUNNEL;
-        this.ctx.fillRect(x, y, size, size);
+    
+    // Helper to lighten a color
+    lightenColor(hex, factor) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        
+        const lr = Math.min(255, Math.floor(r + (255 - r) * factor));
+        const lg = Math.min(255, Math.floor(g + (255 - g) * factor));
+        const lb = Math.min(255, Math.floor(b + (255 - b) * factor));
+        
+        return `rgb(${lr}, ${lg}, ${lb})`;
+    }
+    
+    // Helper to darken a color
+    darkenColor(hex, factor) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        
+        const dr = Math.floor(r * (1 - factor));
+        const dg = Math.floor(g * (1 - factor));
+        const db = Math.floor(b * (1 - factor));
+        
+        return `rgb(${dr}, ${dg}, ${db})`;
     }
 
     // Draw particle effect

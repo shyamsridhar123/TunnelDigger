@@ -22,7 +22,7 @@ class Monster {
         this.alive = true;
         this.isGhost = false;
         this.ghostModeTime = 0;
-        this.lastGhostToggle = Date.now();
+        this.lastGhostToggle = Date.now() + 10000; // Delay first ghost mode by 10 seconds
         
         // Inflation
         this.inflateStage = 0;
@@ -30,7 +30,7 @@ class Monster {
         this.inflateStartTime = 0;
         
         // AI
-        this.pathUpdateInterval = 500; // ms
+        this.pathUpdateInterval = 800; // ms (slowed for fairer gameplay)
         this.lastPathUpdate = 0;
         this.targetPlayer = null;
         
@@ -244,9 +244,10 @@ class Monster {
 
     checkCollisionWithPlayer(player) {
         if (!this.alive || !player.alive) return false;
+        if (player.invincible) return false; // Don't collide with invincible player
         
         const dist = Utils.distance(this.gridX, this.gridY, player.gridX, player.gridY);
-        return dist < 1.0;
+        return dist < 0.7; // Reduced from 1.0 for more forgiving collision
     }
 
     draw(spriteManager) {

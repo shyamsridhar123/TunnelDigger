@@ -9,6 +9,7 @@ class Game {
         this.spriteManager = new SpriteManager(this.ctx);
         this.audioManager = new AudioManager();
         this.particleSystem = new ParticleSystem();
+        this.spaceBackground = new SpaceBackground(this.ctx, canvas.width, canvas.height);
         
         // Game objects
         this.grid = new Grid(CONFIG.GRID_WIDTH, CONFIG.GRID_HEIGHT);
@@ -32,6 +33,9 @@ class Game {
         
         // Level data
         this.totalMonsters = 0;
+        
+        // Screen effects
+        this.screenShake = { x: 0, y: 0, intensity: 0, duration: 0 };
     }
 
     init() {
@@ -221,6 +225,12 @@ class Game {
     update(deltaTime) {
         if (this.state !== GAME_STATE.PLAYING || this.paused) return;
         
+        // Update space background (always animate)
+        this.spaceBackground.update(deltaTime);
+        
+        // Update screen shake
+        this.updateScreenShake(deltaTime);
+        
         // Update music based on player movement
         if (this.audioManager && this.player) {
             this.audioManager.updateMusic(this.player.moving);
@@ -299,9 +309,31 @@ class Game {
             this.onLevelComplete();
         }
     }
+    
+    // Screen shake effect
+    triggerScreenShake(intensity = 5, duration = 200) {
+        if (!CONFIG.SCREEN_SHAKE_ENABLED) return;
+        this.screenShake.intensity = intensity;
+        this.screenShake.duration = duration;
+    }
+    
+    updateScreenShake(deltaTime) {
+        if (this.screenShake.duration > 0) {
+            this.screenShake.duration -= deltaTime;
+            const t = this.screenShake.duration / 200;
+            this.screenShake.x = (Math.random() - 0.5) * this.screenShake.intensity * t;
+            this.screenShake.y = (Math.random() - 0.5) * this.screenShake.intensity * t;
+        } else {
+            this.screenShake.x = 0;
+            this.screenShake.y = 0;
+        }
+    }
 
     onMonsterDefeated(monster, method) {
         this.monstersDefeated++;
+        
+        // Trigger screen shake for impact
+        this.triggerScreenShake(8, 150);
         
         // Calculate score with chain multiplier
         let baseScore = method === 'pump' ? CONFIG.SCORE_MONSTER_PUMP : CONFIG.SCORE_MONSTER_ROCK;
@@ -332,6 +364,9 @@ class Game {
             this.lives--;
             this.audioManager.playDamageSound();
             this.updateUI();
+            
+            // Trigger intense screen shake
+            this.triggerScreenShake(12, 300);
             
             // Create particles
             this.particleSystem.createExplosion(
@@ -415,11 +450,17 @@ class Game {
     }
 
     draw() {
-        // Clear canvas
-        this.ctx.fillStyle = CONFIG.COLOR_BACKGROUND;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        // Apply screen shake
+        this.ctx.save();
+        this.ctx.translate(this.screenShake.x, this.screenShake.y);
         
-        if (this.state === GAME_STATE.TITLE) return;
+        // Draw animated space background
+        this.spaceBackground.draw();
+        
+        if (this.state === GAME_STATE.TITLE) {
+            this.ctx.restore();
+            return;
+        }
         
         // Draw grid
         this.grid.draw(this.spriteManager);
@@ -446,6 +487,21 @@ class Game {
         
         // Draw particles
         this.particleSystem.draw(this.spriteManager);
+        
+        // Draw scanline effect for retro feel
+        this.drawScanlines();
+        
+        this.ctx.restore();
+    }
+    
+    drawScanlines() {
+        if (!CONFIG.SCANLINE_ENABLED) return;
+        
+        // Subtle CRT scanline effect
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+        for (let y = 0; y < this.canvas.height; y += 2) {
+            this.ctx.fillRect(0, y, this.canvas.width, 1);
+        }
     }
 
     gameLoop(currentTime) {

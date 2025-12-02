@@ -25,8 +25,8 @@ class Player {
         
         // State
         this.alive = true;
-        this.invincible = false;
-        this.invincibleUntil = 0;
+        this.invincible = true;  // Start with spawn protection
+        this.invincibleUntil = Date.now() + CONFIG.INVINCIBILITY_TIME;
         
         // Animation
         this.animationFrame = 0;

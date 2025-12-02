@@ -140,6 +140,13 @@ class Grid {
         return tunnels;
     }
 
+    // Check if a tile is a tunnel or empty (for neighbor detection)
+    isTunnelOrEmpty(x, y) {
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return false;
+        const tile = this.tiles[y][x];
+        return tile === CONFIG.TILE_EMPTY || tile === CONFIG.TILE_TUNNEL || tile === CONFIG.TILE_BONUS;
+    }
+
     // Draw the grid
     draw(spriteManager) {
         for (let y = 0; y < this.height; y++) {
@@ -149,21 +156,25 @@ class Grid {
                 
                 switch (tile) {
                     case CONFIG.TILE_EMPTY:
-                        // Draw black background
-                        spriteManager.drawRect(pos.x, pos.y, CONFIG.TILE_SIZE, CONFIG.TILE_SIZE, CONFIG.COLOR_BACKGROUND);
+                        // Empty tiles show background (handled by background layer)
                         break;
                     case CONFIG.TILE_DIRT:
-                        spriteManager.drawDirt(pos.x, pos.y, y);
+                        // Get neighbor info for rounded edges
+                        const neighbors = {
+                            up: this.isTunnelOrEmpty(x, y - 1),
+                            down: this.isTunnelOrEmpty(x, y + 1),
+                            left: this.isTunnelOrEmpty(x - 1, y),
+                            right: this.isTunnelOrEmpty(x + 1, y)
+                        };
+                        spriteManager.drawDirt(pos.x, pos.y, y, neighbors);
                         break;
                     case CONFIG.TILE_ROCK:
                         // Draw dirt underneath the rock
-                        spriteManager.drawDirt(pos.x, pos.y, y);
+                        spriteManager.drawDirt(pos.x, pos.y, y, {up:false,down:false,left:false,right:false});
                         break;
                     case CONFIG.TILE_TUNNEL:
-                        spriteManager.drawTunnel(pos.x, pos.y);
-                        break;
                     case CONFIG.TILE_BONUS:
-                        spriteManager.drawTunnel(pos.x, pos.y);
+                        // Tunnels are transparent - background shows through
                         break;
                 }
             }
