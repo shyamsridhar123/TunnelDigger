@@ -52,6 +52,22 @@ class InputHandler {
         this.keys[key] = true;
         
         // Map virtual keys to actual keys expected by game
+        if (key === 'up') {
+            this.keys['arrowup'] = true;
+            this.keys['w'] = true;
+        }
+        if (key === 'down') {
+            this.keys['arrowdown'] = true;
+            this.keys['s'] = true;
+        }
+        if (key === 'left') {
+            this.keys['arrowleft'] = true;
+            this.keys['a'] = true;
+        }
+        if (key === 'right') {
+            this.keys['arrowright'] = true;
+            this.keys['d'] = true;
+        }
         if (key === 'pump') {
             this.keys[' '] = true;
             this.keys['space'] = true;
@@ -61,6 +77,22 @@ class InputHandler {
     handleTouchEnd(key) {
         this.keys[key] = false;
         
+        if (key === 'up') {
+            this.keys['arrowup'] = false;
+            this.keys['w'] = false;
+        }
+        if (key === 'down') {
+            this.keys['arrowdown'] = false;
+            this.keys['s'] = false;
+        }
+        if (key === 'left') {
+            this.keys['arrowleft'] = false;
+            this.keys['a'] = false;
+        }
+        if (key === 'right') {
+            this.keys['arrowright'] = false;
+            this.keys['d'] = false;
+        }
         if (key === 'pump') {
             this.keys[' '] = false;
             this.keys['space'] = false;
