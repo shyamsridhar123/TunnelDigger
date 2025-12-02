@@ -18,10 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup UI event listeners
     setupUIListeners();
     
-    // Check if mobile
-    if (isMobileDevice()) {
-        document.getElementById('mobile-controls').classList.remove('hidden');
-    }
+    // Setup mobile controls
+    setupMobileControls();
+    
+    // Initial mobile check
+    updateMobileLayout();
 });
 
 function setupUIListeners() {
@@ -114,14 +115,117 @@ function isMobileDevice() {
            (window.innerWidth <= 768);
 }
 
-// Handle window resize
-window.addEventListener('resize', () => {
+function updateMobileLayout() {
     const mobileControls = document.getElementById('mobile-controls');
     if (isMobileDevice()) {
-        mobileControls.classList.remove('hidden');
+        mobileControls.classList.add('active');
     } else {
-        mobileControls.classList.add('hidden');
+        mobileControls.classList.remove('active');
     }
+}
+
+function setupMobileControls() {
+    const mobileControls = document.getElementById('mobile-controls');
+    if (!mobileControls) return;
+    
+    // Prevent default touch behaviors
+    mobileControls.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+    }, { passive: false });
+    
+    // D-pad controls
+    const dpadButtons = mobileControls.querySelectorAll('.dpad .control-btn');
+    dpadButtons.forEach(btn => {
+        const key = btn.dataset.key;
+        
+        // Touch start - simulate key down
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.add('active');
+            
+            if (game && game.inputHandler) {
+                const keyMap = {
+                    'up': 'ArrowUp',
+                    'down': 'ArrowDown',
+                    'left': 'ArrowLeft',
+                    'right': 'ArrowRight'
+                };
+                game.inputHandler.handleKeyDown({ key: keyMap[key] });
+            }
+        }, { passive: false });
+        
+        // Touch end - simulate key up
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.remove('active');
+            
+            if (game && game.inputHandler) {
+                const keyMap = {
+                    'up': 'ArrowUp',
+                    'down': 'ArrowDown',
+                    'left': 'ArrowLeft',
+                    'right': 'ArrowRight'
+                };
+                game.inputHandler.handleKeyUp({ key: keyMap[key] });
+            }
+        }, { passive: false });
+        
+        // Touch cancel
+        btn.addEventListener('touchcancel', (e) => {
+            e.preventDefault();
+            btn.classList.remove('active');
+            
+            if (game && game.inputHandler) {
+                const keyMap = {
+                    'up': 'ArrowUp',
+                    'down': 'ArrowDown',
+                    'left': 'ArrowLeft',
+                    'right': 'ArrowRight'
+                };
+                game.inputHandler.handleKeyUp({ key: keyMap[key] });
+            }
+        }, { passive: false });
+    });
+    
+    // Action button (pump)
+    const actionBtn = mobileControls.querySelector('.action-btn');
+    if (actionBtn) {
+        actionBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            actionBtn.classList.add('active');
+            
+            if (game && game.inputHandler) {
+                game.inputHandler.handleKeyDown({ key: ' ' });
+            }
+        }, { passive: false });
+        
+        actionBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            actionBtn.classList.remove('active');
+            
+            if (game && game.inputHandler) {
+                game.inputHandler.handleKeyUp({ key: ' ' });
+            }
+        }, { passive: false });
+        
+        actionBtn.addEventListener('touchcancel', (e) => {
+            e.preventDefault();
+            actionBtn.classList.remove('active');
+            
+            if (game && game.inputHandler) {
+                game.inputHandler.handleKeyUp({ key: ' ' });
+            }
+        }, { passive: false });
+    }
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    updateMobileLayout();
 });
 
 // Prevent context menu on canvas

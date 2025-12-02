@@ -14,8 +14,10 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
     color: #fff;
     overflow: hidden;
+    touch-action: none; /* Prevent pull-to-refresh and other gestures */
 }
 
 /* Game Container - Arcade Cabinet Style */
@@ -30,6 +32,9 @@ body {
         inset 0 0 20px rgba(0, 0, 0, 0.5);
     border-radius: 4px;
     overflow: hidden;
+    max-width: 100vw;
+    max-height: 100vh;
+    max-height: 100dvh;
 }
 
 /* Canvas */
@@ -41,6 +46,10 @@ body {
     image-rendering: pixelated; /* Modern browsers */
     -ms-interpolation-mode: nearest-neighbor; /* IE */
     background: #000;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
 }
 
 /* UI Overlay */
@@ -235,15 +244,19 @@ body {
 /* Mobile Controls */
 #mobile-controls {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     left: 0;
     right: 0;
-    display: flex;
+    display: none;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-end;
     padding: 0 20px;
     z-index: 50;
-    pointer-events: all;
+    pointer-events: none;
+}
+
+#mobile-controls.active {
+    display: flex;
 }
 
 .dpad {
@@ -254,6 +267,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 4px;
+    pointer-events: all;
 }
 
 .control-btn {
@@ -264,9 +278,12 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.1s;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-.control-btn:active {
+.control-btn:active,
+.control-btn.active {
     background: #FFFF00;
     color: #000;
     transform: scale(0.95);
@@ -300,9 +317,11 @@ body {
     background: #FF0000;
     border-color: #FF8800;
     color: #FFFFFF;
+    pointer-events: all;
 }
 
-.action-btn:active {
+.action-btn:active,
+.action-btn.active {
     background: #FF8800;
 }
 
@@ -331,30 +350,187 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
     #game-container {
-        border: 3px solid #333;
+        border: 2px solid #333;
+        border-radius: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        max-width: 100vw;
+        max-height: 100vh;
+        max-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #game-canvas {
+        max-width: 100vw;
+        max-height: calc(100vh - 140px); /* Account for controls */
+        max-height: calc(100dvh - 140px);
+        object-fit: contain;
+    }
+
+    .ui-top {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+
+    .ui-buttons button {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .screen {
+        padding: 10px;
     }
 
     .screen h1 {
-        font-size: 24px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
     }
 
     .screen h2 {
-        font-size: 18px;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .subtitle {
+        font-size: 10px;
+        margin-bottom: 20px;
     }
 
     .game-button {
-        font-size: 12px;
-        padding: 10px 24px;
+        font-size: 10px;
+        padding: 8px 20px;
+        margin: 4px;
     }
 
-    #mobile-controls {
+    .instructions-content {
+        max-width: 90vw;
+        padding: 12px;
+        font-size: 10px;
+    }
+
+    .instructions-content p {
+        font-size: 9px;
+        margin-bottom: 8px;
+    }
+
+    .instructions-content li {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    .final-score, .level-score {
+        font-size: 14px;
+        margin: 12px 0;
+    }
+
+    .dpad {
+        width: 120px;
+        height: 120px;
+        gap: 3px;
+    }
+
+    .control-btn {
+        font-size: 16px;
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .action-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 10px;
+    }
+
+    #mobile-controls.active {
         display: flex;
+        bottom: 5px;
+        padding: 0 10px;
     }
 }
 
 @media (min-width: 769px) {
     #mobile-controls {
         display: none !important;
+    }
+}
+
+/* Very small mobile devices */
+@media (max-width: 480px) {
+    .screen h1 {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    .screen h2 {
+        font-size: 14px;
+    }
+
+    .game-button {
+        font-size: 9px;
+        padding: 6px 16px;
+    }
+
+    .dpad {
+        width: 100px;
+        height: 100px;
+    }
+
+    .action-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 9px;
+    }
+
+    #game-canvas {
+        max-height: calc(100vh - 120px);
+        max-height: calc(100dvh - 120px);
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    #game-container {
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    #game-canvas {
+        max-height: calc(100vh - 80px);
+        max-height: calc(100dvh - 80px);
+        max-width: 60vw;
+    }
+
+    #mobile-controls.active {
+        bottom: 2px;
+        padding: 0 5px;
+    }
+
+    .dpad {
+        width: 90px;
+        height: 90px;
+    }
+
+    .action-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .ui-top {
+        font-size: 8px;
+        padding: 2px 6px;
     }
 }
