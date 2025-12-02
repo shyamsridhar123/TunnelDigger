@@ -144,14 +144,9 @@ function setupMobileControls() {
             e.stopPropagation();
             btn.classList.add('active');
             
-            if (game && game.inputHandler) {
-                const keyMap = {
-                    'up': 'ArrowUp',
-                    'down': 'ArrowDown',
-                    'left': 'ArrowLeft',
-                    'right': 'ArrowRight'
-                };
-                game.inputHandler.handleKeyDown({ key: keyMap[key] });
+            if (game && game.input) {
+                // Use the InputHandler's method directly
+                game.input.handleTouchStart(key);
             }
         }, { passive: false });
         
@@ -161,14 +156,8 @@ function setupMobileControls() {
             e.stopPropagation();
             btn.classList.remove('active');
             
-            if (game && game.inputHandler) {
-                const keyMap = {
-                    'up': 'ArrowUp',
-                    'down': 'ArrowDown',
-                    'left': 'ArrowLeft',
-                    'right': 'ArrowRight'
-                };
-                game.inputHandler.handleKeyUp({ key: keyMap[key] });
+            if (game && game.input) {
+                game.input.handleTouchEnd(key);
             }
         }, { passive: false });
         
@@ -177,16 +166,27 @@ function setupMobileControls() {
             e.preventDefault();
             btn.classList.remove('active');
             
-            if (game && game.inputHandler) {
-                const keyMap = {
-                    'up': 'ArrowUp',
-                    'down': 'ArrowDown',
-                    'left': 'ArrowLeft',
-                    'right': 'ArrowRight'
-                };
-                game.inputHandler.handleKeyUp({ key: keyMap[key] });
+            if (game && game.input) {
+                game.input.handleTouchEnd(key);
             }
         }, { passive: false });
+        
+        // Mouse events for testing on desktop
+        btn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            btn.classList.add('active');
+            if (game && game.input) {
+                game.input.handleTouchStart(key);
+            }
+        });
+        
+        btn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            btn.classList.remove('active');
+            if (game && game.input) {
+                game.input.handleTouchEnd(key);
+            }
+        });
     });
     
     // Action button (pump)
@@ -197,8 +197,8 @@ function setupMobileControls() {
             e.stopPropagation();
             actionBtn.classList.add('active');
             
-            if (game && game.inputHandler) {
-                game.inputHandler.handleKeyDown({ key: ' ' });
+            if (game && game.input) {
+                game.input.handleTouchStart('pump');
             }
         }, { passive: false });
         
@@ -207,8 +207,8 @@ function setupMobileControls() {
             e.stopPropagation();
             actionBtn.classList.remove('active');
             
-            if (game && game.inputHandler) {
-                game.inputHandler.handleKeyUp({ key: ' ' });
+            if (game && game.input) {
+                game.input.handleTouchEnd('pump');
             }
         }, { passive: false });
         
@@ -216,10 +216,27 @@ function setupMobileControls() {
             e.preventDefault();
             actionBtn.classList.remove('active');
             
-            if (game && game.inputHandler) {
-                game.inputHandler.handleKeyUp({ key: ' ' });
+            if (game && game.input) {
+                game.input.handleTouchEnd('pump');
             }
         }, { passive: false });
+        
+        // Mouse events for testing
+        actionBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            actionBtn.classList.add('active');
+            if (game && game.input) {
+                game.input.handleTouchStart('pump');
+            }
+        });
+        
+        actionBtn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            actionBtn.classList.remove('active');
+            if (game && game.input) {
+                game.input.handleTouchEnd('pump');
+            }
+        });
     }
 }
 

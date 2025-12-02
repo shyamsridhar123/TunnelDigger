@@ -20,26 +20,8 @@ class InputHandler {
     }
 
     setupMobileControls() {
-        const buttons = document.querySelectorAll('.control-btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                this.handleTouchStart(btn.dataset.key);
-            });
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.handleTouchEnd(btn.dataset.key);
-            });
-            // Mouse events for testing on desktop
-            btn.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                this.handleTouchStart(btn.dataset.key);
-            });
-            btn.addEventListener('mouseup', (e) => {
-                e.preventDefault();
-                this.handleTouchEnd(btn.dataset.key);
-            });
-        });
+        // Mobile controls are now set up in main.js
+        // This avoids duplicate event listeners
     }
 
     handleKeyDown(e) {
