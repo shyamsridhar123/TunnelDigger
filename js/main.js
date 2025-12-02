@@ -128,6 +128,14 @@ function setupMobileControls() {
     const mobileControls = document.getElementById('mobile-controls');
     if (!mobileControls) return;
     
+    // Helper function to release button
+    const releaseButton = (btn, key) => {
+        btn.classList.remove('active');
+        if (game && game.input) {
+            game.input.handleTouchEnd(key);
+        }
+    };
+    
     // D-pad controls
     const dpadButtons = mobileControls.querySelectorAll('.dpad .control-btn');
     dpadButtons.forEach(btn => {
@@ -149,21 +157,13 @@ function setupMobileControls() {
         btn.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            btn.classList.remove('active');
-            
-            if (game && game.input) {
-                game.input.handleTouchEnd(key);
-            }
+            releaseButton(btn, key);
         }, { passive: false });
         
         // Touch cancel
         btn.addEventListener('touchcancel', (e) => {
             e.preventDefault();
-            btn.classList.remove('active');
-            
-            if (game && game.input) {
-                game.input.handleTouchEnd(key);
-            }
+            releaseButton(btn, key);
         }, { passive: false });
         
         // Mouse events for testing on desktop
@@ -177,50 +177,38 @@ function setupMobileControls() {
         
         btn.addEventListener('mouseup', (e) => {
             e.preventDefault();
-            btn.classList.remove('active');
-            if (game && game.input) {
-                game.input.handleTouchEnd(key);
-            }
+            releaseButton(btn, key);
         });
         
-        btn.addEventListener('mouseleave', (e) => {
-            btn.classList.remove('active');
-            if (game && game.input) {
-                game.input.handleTouchEnd(key);
-            }
+        btn.addEventListener('mouseleave', () => {
+            releaseButton(btn, key);
         });
     });
     
     // Action button (pump)
     const actionBtn = mobileControls.querySelector('.action-btn');
     if (actionBtn) {
+        const pumpKey = 'pump';
+        
         actionBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
             actionBtn.classList.add('active');
             
             if (game && game.input) {
-                game.input.handleTouchStart('pump');
+                game.input.handleTouchStart(pumpKey);
             }
         }, { passive: false });
         
         actionBtn.addEventListener('touchend', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            actionBtn.classList.remove('active');
-            
-            if (game && game.input) {
-                game.input.handleTouchEnd('pump');
-            }
+            releaseButton(actionBtn, pumpKey);
         }, { passive: false });
         
         actionBtn.addEventListener('touchcancel', (e) => {
             e.preventDefault();
-            actionBtn.classList.remove('active');
-            
-            if (game && game.input) {
-                game.input.handleTouchEnd('pump');
-            }
+            releaseButton(actionBtn, pumpKey);
         }, { passive: false });
         
         // Mouse events for testing
@@ -228,23 +216,17 @@ function setupMobileControls() {
             e.preventDefault();
             actionBtn.classList.add('active');
             if (game && game.input) {
-                game.input.handleTouchStart('pump');
+                game.input.handleTouchStart(pumpKey);
             }
         });
         
         actionBtn.addEventListener('mouseup', (e) => {
             e.preventDefault();
-            actionBtn.classList.remove('active');
-            if (game && game.input) {
-                game.input.handleTouchEnd('pump');
-            }
+            releaseButton(actionBtn, pumpKey);
         });
         
-        actionBtn.addEventListener('mouseleave', (e) => {
-            actionBtn.classList.remove('active');
-            if (game && game.input) {
-                game.input.handleTouchEnd('pump');
-            }
+        actionBtn.addEventListener('mouseleave', () => {
+            releaseButton(actionBtn, pumpKey);
         });
     }
 }
