@@ -128,11 +128,6 @@ function setupMobileControls() {
     const mobileControls = document.getElementById('mobile-controls');
     if (!mobileControls) return;
     
-    // Prevent default touch behaviors
-    mobileControls.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-    }, { passive: false });
-    
     // D-pad controls
     const dpadButtons = mobileControls.querySelectorAll('.dpad .control-btn');
     dpadButtons.forEach(btn => {
@@ -187,6 +182,13 @@ function setupMobileControls() {
                 game.input.handleTouchEnd(key);
             }
         });
+        
+        btn.addEventListener('mouseleave', (e) => {
+            btn.classList.remove('active');
+            if (game && game.input) {
+                game.input.handleTouchEnd(key);
+            }
+        });
     });
     
     // Action button (pump)
@@ -232,6 +234,13 @@ function setupMobileControls() {
         
         actionBtn.addEventListener('mouseup', (e) => {
             e.preventDefault();
+            actionBtn.classList.remove('active');
+            if (game && game.input) {
+                game.input.handleTouchEnd('pump');
+            }
+        });
+        
+        actionBtn.addEventListener('mouseleave', (e) => {
             actionBtn.classList.remove('active');
             if (game && game.input) {
                 game.input.handleTouchEnd('pump');
