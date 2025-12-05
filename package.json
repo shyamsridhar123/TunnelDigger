@@ -1,0 +1,20 @@
+{
+  "name": "tunneldigger",
+  "version": "1.0.0",
+  "description": "A browser-based 2D arcade action game inspired by classic digging games. Dig tunnels, defeat monsters, and survive!",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "screengrab": "playwright test tests/gameplay-screenshots.spec.js",
+    "screengrab:headed": "playwright test tests/gameplay-screenshots.spec.js --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "playwright": "^1.57.0"
+  }
+}
