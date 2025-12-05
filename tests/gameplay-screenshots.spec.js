@@ -21,8 +21,6 @@ test.describe('Gameplay Screenshots', () => {
       path: 'screenshots/title-screen.png',
       fullPage: true 
     });
-    
-    console.log('✅ Title screen captured');
   });
 
   test('capture gameplay', async ({ page }) => {
@@ -43,8 +41,6 @@ test.describe('Gameplay Screenshots', () => {
       path: 'screenshots/gameplay-start.png',
       fullPage: true 
     });
-    
-    console.log('✅ Initial gameplay captured');
     
     // Simulate some gameplay - move around
     // Move right
@@ -73,8 +69,6 @@ test.describe('Gameplay Screenshots', () => {
       fullPage: true 
     });
     
-    console.log('✅ Gameplay after movement captured');
-    
     // Continue gameplay for a bit longer
     await page.keyboard.down('ArrowRight');
     await page.waitForTimeout(300);
@@ -93,8 +87,6 @@ test.describe('Gameplay Screenshots', () => {
       path: 'screenshots/gameplay-extended.png',
       fullPage: true 
     });
-    
-    console.log('✅ Extended gameplay captured');
   });
 
   test('capture instructions screen', async ({ page }) => {
@@ -116,8 +108,6 @@ test.describe('Gameplay Screenshots', () => {
       path: 'screenshots/instructions-screen.png',
       fullPage: true 
     });
-    
-    console.log('✅ Instructions screen captured');
   });
 
   test('capture gameplay with pump action', async ({ page }) => {
@@ -155,8 +145,6 @@ test.describe('Gameplay Screenshots', () => {
       path: 'screenshots/gameplay-with-action.png',
       fullPage: true 
     });
-    
-    console.log('✅ Gameplay with pump action captured');
   });
 
   test('capture canvas only', async ({ page }) => {
@@ -190,7 +178,5 @@ test.describe('Gameplay Screenshots', () => {
     await canvas.screenshot({ 
       path: 'screenshots/canvas-gameplay.png' 
     });
-    
-    console.log('✅ Canvas-only gameplay captured');
   });
 });
