@@ -21,3 +21,12 @@ npm-debug.log*
 # Build outputs (if added later)
 dist/
 build/
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Test results
+test-results/
+playwright-report/
+playwright/.cache/
