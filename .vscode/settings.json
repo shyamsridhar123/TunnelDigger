@@ -1,0 +1,26 @@
+{
+  "chat.tools.autoApprove": true,
+  "chat.tools.terminal.autoApprove": {
+    "/^git\\s+(commit|push)\\b/": true,
+    "/^(npm|pnpm|yarn)\\s+(test|lint|build)\\b/": true,
+    "/^(npm|pnpm|yarn)\\s+run\\s+(test|lint|format)\\b/": true,
+    "rm": false,
+    "kill": false,
+    "git reset --hard": false,
+    "rm -rf": false
+  },
+  "chat.agent.iterationLimit": 15,
+  "chat.agent.maxTokensPerIteration": 4000,
+  "chat.agent.slowMode": false,
+  "chat.mcp.assisted.nuget.enabled": true,
+  "chat.mcp.gallery.enabled": true,
+  "chat.renderRelatedFiles": true,
+  "chat.todoListTool.descriptionField": true,
+  "chat.todoListTool.writeOnly": true,
+  "chat.tools.terminal.autoReplyToPrompts": true,
+  "chat.useAgentSkills": true,
+  "chat.useNestedAgentsMdFiles": true,
+  "inlineChat.enableV2": true,
+  "inlineChat.finishOnType": true,
+  "inlineChat.notebookAgent": true
+}
